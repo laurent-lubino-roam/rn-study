@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import {Todo, TodoInitialValues} from '../models/Todo';
 
 type TodoContext = {
@@ -29,19 +29,17 @@ const {Provider} = TodoContext;
 const TodoProvider: React.FC = ({children}) => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
 
+  const getTodoById = (id: Todo['id']): Todo | undefined => {
+    return todos.find(todo => todo.id === id);
+  };
   const addTodo = (todo: TodoInitialValues): void => {
-    console.log(todo);
     const newTodos = todos;
     newTodos.push(new Todo(todo));
-    setTodos(newTodos);
-    console.log(newTodos.length, todos.length);
+    setTodos([...newTodos]);
   };
   const deleteTodo = (id: Todo['id']): void => {
     const newTodos = todos.filter(todo => todo.id === id);
-    setTodos(newTodos);
-  };
-  const getTodoById = (id: Todo['id']): Todo | undefined => {
-    return todos.find(todo => todo.id === id);
+    setTodos([...newTodos]);
   };
   const editTodo = (
     id: Todo['id'],
@@ -57,7 +55,7 @@ const TodoProvider: React.FC = ({children}) => {
       // @ts-ignore
       newTodos[index][k] = v;
     });
-    setTodos(newTodos);
+    setTodos([...newTodos]);
   };
 
   return (

@@ -1,18 +1,14 @@
 import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import React from 'react';
 import TodoList from './components/TodoList';
-// import {useTodoListScreen} from './viewModels/useTodoListScreen';
-import {useTodoContext} from '../../contexts/TodoContext';
+import {useTodoListScreen} from './viewModels/useTodoListScreen';
 
 const TodoListScreen = () => {
-  // const {
-  //   data: {todos},
-  //   operations: {addTodo},
-  // } = useTodoListScreen();
-  const {todos, addTodo, editTodo} = useTodoContext();
-  const onCheckedChange = (id: string, checked: boolean) => {
-    editTodo(id, {checked});
-  };
+  const {
+    data: {todos},
+    operations: {addTodo, onCheckedChange},
+  } = useTodoListScreen();
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>

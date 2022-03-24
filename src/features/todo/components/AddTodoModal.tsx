@@ -34,7 +34,7 @@ const AddTodoModal = ({isOpen, onAddTodo, onDismiss}: AddTodoModalProps) => {
     onDismiss();
   };
   return (
-    <Modal visible={isOpen}>
+    <Modal visible={isOpen} transparent={true}>
       <SafeAreaView style={styles.safeArea}>
         <TouchableOpacity onPress={onDismiss} style={styles.background}>
           <TouchableWithoutFeedback onPress={() => null}>

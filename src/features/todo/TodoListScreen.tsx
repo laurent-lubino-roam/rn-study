@@ -1,7 +1,8 @@
 import {StyleSheet, Text, TouchableHighlight, View} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import TodoList from './components/TodoList';
 import {useTodoListScreen} from './viewModels/useTodoListScreen';
+import AddTodoModal from './components/AddTodoModal';
 
 const TodoListScreen = () => {
   const {
@@ -9,16 +10,23 @@ const TodoListScreen = () => {
     operations: {addTodo, onCheckedChange},
   } = useTodoListScreen();
 
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Todos</Text>
         <TouchableHighlight
-          onPress={() => addTodo({title: 'abc'})}
+          onPress={() => setIsOpenModal(true)}
           underlayColor="lightgrey"
           style={styles.addButton}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableHighlight>
+        <AddTodoModal
+          isOpen={isOpenModal}
+          onAddTodo={addTodo}
+          onDismiss={() => setIsOpenModal(false)}
+        />
       </View>
       <TodoList todos={todos} onCheckedChange={onCheckedChange} />
     </View>

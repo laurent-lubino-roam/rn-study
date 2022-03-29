@@ -10,7 +10,8 @@ import {
   Button,
   TouchableWithoutFeedback,
 } from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
+import {useForm, Controller} from 'react-hook-form';
 import {TodoInitialValues} from '../../../models/Todo';
 
 type AddTodoModalProps = {
@@ -20,21 +21,32 @@ type AddTodoModalProps = {
 };
 
 const AddTodoModal = ({isOpen, onAddTodo, onDismiss}: AddTodoModalProps) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: {errors},
+  } = useForm({
+    defaultValues: {
+      title: '',
+      description: '',
+    },
+  });
 
-  const clearInputs = () => {
-    setTitle('');
-    setDescription('');
-  };
-
-  const onAdd = () => {
+  const onAdd = ({
+    title,
+    description,
+  }: {
+    title: string;
+    description: string;
+  }) => {
     onAddTodo({title, description});
-    clearInputs();
+    reset();
     onDismiss();
   };
+
   return (
-    <Modal visible={isOpen} transparent={true}>
+    <Modal visible={isOpen} transparent>
       <SafeAreaView style={styles.safeArea}>
         <TouchableOpacity onPress={onDismiss} style={styles.background}>
           <TouchableWithoutFeedback onPress={() => null}>
@@ -49,11 +61,41 @@ const AddTodoModal = ({isOpen, onAddTodo, onDismiss}: AddTodoModalProps) => {
                 </TouchableHighlight>
               </View>
               <View>
-                <Text>Title:</Text>
-                <TextInput value={title} onChangeText={setTitle} />
+                <Text>Title (required):</Text>
+                {!!errors.title && (
+                  <Text style={styles.error}>This is required.</Text>
+                )}
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({field: {onChange, onBlur, value}}) => (
+                    <TextInput
+                      style={styles.input}
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="title"
+                />
+
                 <Text>Description:</Text>
-                <TextInput value={description} onChangeText={setDescription} />
-                <Button title="Add" onPress={onAdd} />
+                <Controller
+                  control={control}
+                  render={({field: {onChange, onBlur, value}}) => (
+                    <TextInput
+                      style={styles.input}
+                      multiline
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="description"
+                />
+                <Button title="Add" onPress={handleSubmit(onAdd)} />
               </View>
             </View>
           </TouchableWithoutFeedback>
@@ -104,5 +146,13 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     fontWeight: 'bold',
     color: 'black',
+  },
+  input: {
+    borderWidth: 1,
+    padding: 6,
+    marginBottom: 12,
+  },
+  error: {
+    color: 'red',
   },
 });

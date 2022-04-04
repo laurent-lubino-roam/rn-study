@@ -1,14 +1,17 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
 import TodoProvider from './contexts/TodoContext';
-import TodoListScreen from './features/todo/TodoListScreen';
+import Navigator from './Navigator';
 
 const App = () => {
   return (
     <TodoProvider>
-      <SafeAreaView style={styles.backgroundStyle}>
-        <TodoListScreen />
-      </SafeAreaView>
+      <NavigationContainer>
+        <SafeAreaView style={styles.backgroundStyle}>
+          <Navigator />
+        </SafeAreaView>
+      </NavigationContainer>
     </TodoProvider>
   );
 };

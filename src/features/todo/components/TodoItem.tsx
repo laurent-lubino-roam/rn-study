@@ -1,13 +1,14 @@
-import {StyleSheet, Switch, Text, View} from 'react-native';
+import {StyleSheet, Switch, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Todo} from '../../../models/Todo';
 
 type TodoItemProps = {
   todo: Todo;
   onCheckedChange: (checked: boolean) => void;
+  onGoToTodo: () => void;
 };
 
-const TodoItem = ({todo, onCheckedChange}: TodoItemProps) => {
+const TodoItem = ({todo, onCheckedChange, onGoToTodo}: TodoItemProps) => {
   return (
     <View style={styles.container}>
       <Switch
@@ -15,7 +16,9 @@ const TodoItem = ({todo, onCheckedChange}: TodoItemProps) => {
         onValueChange={value => onCheckedChange(value)}
         style={styles.check}
       />
-      <Text style={styles.title}>{todo.title}</Text>
+      <TouchableOpacity style={styles.titleContainer} onPress={onGoToTodo}>
+        <Text style={styles.title}>{todo.title}</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -32,6 +35,9 @@ const styles = StyleSheet.create({
   },
   check: {
     marginRight: 8,
+  },
+  titleContainer: {
+    flex: 1,
   },
   title: {
     fontSize: 16,

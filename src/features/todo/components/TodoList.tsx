@@ -6,9 +6,10 @@ import TodoItem from './TodoItem';
 type TodoListProps = {
   todos: Array<Todo>;
   onCheckedChange: (id: string, checked: boolean) => void;
+  goToTodo: (id: string) => void;
 };
 
-const TodoList = ({todos, onCheckedChange}: TodoListProps) => {
+const TodoList = ({todos, onCheckedChange, goToTodo}: TodoListProps) => {
   if (!todos?.length) {
     return (
       <View style={styles.emptyContainer}>
@@ -25,6 +26,7 @@ const TodoList = ({todos, onCheckedChange}: TodoListProps) => {
         <TodoItem
           todo={item}
           onCheckedChange={checked => onCheckedChange(item.id, checked)}
+          onGoToTodo={() => goToTodo(item.id)}
         />
       )}
     />

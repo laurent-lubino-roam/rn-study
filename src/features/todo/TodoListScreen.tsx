@@ -7,7 +7,7 @@ import AddTodoModal from './components/AddTodoModal';
 const TodoListScreen = () => {
   const {
     data: {todos},
-    operations: {addTodo, onCheckedChange},
+    operations: {addTodo, onCheckedChange, goToTodo},
   } = useTodoListScreen();
 
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -28,7 +28,11 @@ const TodoListScreen = () => {
           onDismiss={() => setIsOpenModal(false)}
         />
       </View>
-      <TodoList todos={todos} onCheckedChange={onCheckedChange} />
+      <TodoList
+        todos={todos}
+        onCheckedChange={onCheckedChange}
+        goToTodo={goToTodo}
+      />
     </View>
   );
 };

@@ -6,7 +6,7 @@ import {
 import TodoListScreen from './features/todo/TodoListScreen';
 import TodoScreen from './features/todo/TodoScreen';
 
-type ParamList = {
+export type ParamList = {
   TodoList: {};
   Todo: {
     id: string;
